@@ -1,13 +1,6 @@
 {
+  "framework": "vite",
   "buildCommand": "npm run build",
   "devCommand": "npm run dev",
-  "outputDirectory": "dist",
-  "framework": "nextjs",
-  "experimentalServices": [
-    {
-      "name": "web",
-      "type": "static",
-      "framework": "vite"
-    }
-  ]
+  "outputDirectory": "dist"
 }
