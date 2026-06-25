@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { supabase } from "../supabaseClient";
+import { supabase } from "../services/supabaseClient";
 import Header from "../components/Header";
 import ExpenseForm from "../components/ExpenseForm";
 import ExpenseList from "../components/ExpenseList";
 
 function DashboardPage() {
+  const [loading, setLoading] = useState(true);
   const [expenses, setExpenses] = useState([]);
   const addExpense = async (newExpense) => {
     const { data, error } = await supabase
@@ -22,14 +23,24 @@ function DashboardPage() {
   }, []);
 
   const fetchExpenses = async () => {
+    setLoading(true);
+
     const { data, error } = await supabase
       .from("expenses")
       .select("*")
       .order("id", { ascending: false });
 
-    if (error) console.log(error);
-    else setExpenses(data);
+    if (error) {
+      console.log(error);
+    } else {
+      setExpenses(data);
+    }
+
+    setLoading(false);
   };
+  if (loading) {
+    return <h2>Loading expenses...</h2>;
+  }
   const deleteExpense = async (id) => {
     const { error } = await supabase.from("expenses").delete().eq("id", id);
 
@@ -38,8 +49,8 @@ function DashboardPage() {
     }
   };
 
-  const total = expenses.reduce((sum, expenses) => {
-    return sum + expenses.amount;
+  const total = expenses.reduce((sum, expense) => {
+    return sum + expense.amount;
   }, 0);
   return (
     <div className="min-h-screen bg-gray-50">

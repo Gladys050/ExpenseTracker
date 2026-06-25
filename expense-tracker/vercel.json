@@ -1,0 +1,13 @@
+{
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "outputDirectory": "dist",
+  "framework": "vite",
+  "experimentalServices": [
+    {
+      "name": "web",
+      "type": "static",
+      "framework": "vite"
+    }
+  ]
+}
